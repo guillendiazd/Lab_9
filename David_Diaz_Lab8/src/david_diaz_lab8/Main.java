@@ -1,4 +1,16 @@
 package david_diaz_lab8;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
 public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
@@ -29,8 +41,8 @@ public class Main extends javax.swing.JFrame {
         jTFDireccion = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        jRBM = new javax.swing.JRadioButton();
+        jRBF = new javax.swing.JRadioButton();
         jBGGen = new javax.swing.ButtonGroup();
         jDModificar_Contacto = new javax.swing.JDialog();
         jLabel8 = new javax.swing.JLabel();
@@ -39,8 +51,8 @@ public class Main extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jTFEdad1 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        jRBM1 = new javax.swing.JRadioButton();
+        jRBF1 = new javax.swing.JRadioButton();
         jLabel12 = new javax.swing.JLabel();
         jTFNumero_Te1 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
@@ -59,7 +71,7 @@ public class Main extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        arbolito = new javax.swing.JTree();
         jButton6 = new javax.swing.JButton();
         jDNuevo_Mensaje = new javax.swing.JDialog();
         jLabel18 = new javax.swing.JLabel();
@@ -67,7 +79,7 @@ public class Main extends javax.swing.JFrame {
         jCBReceptor_Mensaje = new javax.swing.JComboBox<>();
         jLabel21 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTAMensaje = new javax.swing.JTextArea();
         jButton5 = new javax.swing.JButton();
         jDBuzon_Salida = new javax.swing.JDialog();
         jLabel22 = new javax.swing.JLabel();
@@ -124,14 +136,20 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTFDireccion);
 
         jButton1.setText("Guardar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jLabel7.setText("Genero:");
 
-        jBGGen.add(jRadioButton1);
-        jRadioButton1.setText("M");
+        jBGGen.add(jRBM);
+        jRBM.setSelected(true);
+        jRBM.setText("M");
 
-        jBGGen.add(jRadioButton2);
-        jRadioButton2.setText("F");
+        jBGGen.add(jRBF);
+        jRBF.setText("F");
 
         javax.swing.GroupLayout jDCrear_ContactoLayout = new javax.swing.GroupLayout(jDCrear_Contacto.getContentPane());
         jDCrear_Contacto.getContentPane().setLayout(jDCrear_ContactoLayout);
@@ -170,9 +188,9 @@ public class Main extends javax.swing.JFrame {
                                     .addGroup(jDCrear_ContactoLayout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton1)
+                                        .addComponent(jRBM)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton2)
+                                        .addComponent(jRBF)
                                         .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addGap(0, 95, Short.MAX_VALUE))
         );
@@ -189,8 +207,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jTFEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(jRBM)
+                    .addComponent(jRBF))
                 .addGap(18, 18, 18)
                 .addGroup(jDCrear_ContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -211,6 +229,12 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jDModificar_Contacto.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                jDModificar_ContactoWindowActivated(evt);
+            }
+        });
+
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel8.setText("Modificar Contacto");
 
@@ -220,12 +244,11 @@ public class Main extends javax.swing.JFrame {
 
         jLabel11.setText("Genero:");
 
-        jBGGen.add(jRadioButton3);
-        jRadioButton3.setSelected(true);
-        jRadioButton3.setText("M");
+        jBGGen.add(jRBM1);
+        jRBM1.setText("M");
 
-        jBGGen.add(jRadioButton4);
-        jRadioButton4.setText("F");
+        jBGGen.add(jRBF1);
+        jRBF1.setText("F");
 
         jLabel12.setText("Numero de Telefono:");
 
@@ -238,6 +261,11 @@ public class Main extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTFDireccion1);
 
         jButton2.setText("Guardar");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDModificar_ContactoLayout = new javax.swing.GroupLayout(jDModificar_Contacto.getContentPane());
         jDModificar_Contacto.getContentPane().setLayout(jDModificar_ContactoLayout);
@@ -278,9 +306,9 @@ public class Main extends javax.swing.JFrame {
                                     .addGroup(jDModificar_ContactoLayout.createSequentialGroup()
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton3)
+                                        .addComponent(jRBM1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton4)
+                                        .addComponent(jRBF1)
                                         .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addGap(0, 47, Short.MAX_VALUE))
         );
@@ -298,8 +326,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(jTFEdad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
+                    .addComponent(jRBM1)
+                    .addComponent(jRBF1))
                 .addGap(18, 18, 18)
                 .addGroup(jDModificar_ContactoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -320,10 +348,21 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jDEliminar_Contacto.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                jDEliminar_ContactoWindowActivated(evt);
+            }
+        });
+
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel15.setText("Eliminar Contacto");
 
         jButton3.setText("Eliminar");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         jLabel16.setText("Nombre:");
 
@@ -364,12 +403,22 @@ public class Main extends javax.swing.JFrame {
         jLabel17.setText("Listar Contacto");
 
         jButton4.setText("Genero");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Contactos");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane3.setViewportView(jTree1);
+        arbolito.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane3.setViewportView(arbolito);
 
         jButton6.setText("Edad");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDAgenda_ContactoLayout = new javax.swing.GroupLayout(jDAgenda_Contacto.getContentPane());
         jDAgenda_Contacto.getContentPane().setLayout(jDAgenda_ContactoLayout);
@@ -408,11 +457,16 @@ public class Main extends javax.swing.JFrame {
 
         jLabel21.setText("Mensaje:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea1);
+        jTAMensaje.setColumns(20);
+        jTAMensaje.setRows(5);
+        jScrollPane4.setViewportView(jTAMensaje);
 
         jButton5.setText("Enviar Mensaje");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDNuevo_MensajeLayout = new javax.swing.GroupLayout(jDNuevo_Mensaje.getContentPane());
         jDNuevo_Mensaje.getContentPane().setLayout(jDNuevo_MensajeLayout);
@@ -608,12 +662,27 @@ public class Main extends javax.swing.JFrame {
         jMenu1.setText("Contacto");
 
         jMenuItem1.setText("Crear");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Modificar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Eliminar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
@@ -621,6 +690,11 @@ public class Main extends javax.swing.JFrame {
         jMenu2.setText("Opciones");
 
         jMenuItem4.setText("Agenda");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenu3.setText("Mensaje");
@@ -660,6 +734,213 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       jDCrear_Contacto.setModal(true);
+       jDCrear_Contacto.pack();
+       jDCrear_Contacto.setLocationRelativeTo(this);
+       jDCrear_Contacto.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        Dba db = new Dba("./Database1.accdb");
+        db.conectar();
+        try {
+            String gen = "";
+            if (jRBM.isSelected()) {
+                gen = "Masculino";
+            } else {
+                gen = "Femenino";
+            }
+            Contacto c = new Contacto(jTFNombre.getText(), Integer.parseInt(jTFNumero_Te.getText()), Integer.parseInt(jTFEdad.getText()), jTFCorreo.getText(), jTFDireccion.getText(), gen);
+            db.query.execute("INSERT INTO contactos"
+                    + " (nombre, numero_telefono, edad, correo, direccion, genero)"
+                    + " VALUES('" + c.getNombre() + "','" + c.getEdad() + "','" + c.getNum_tel() + "','" + c.getCorreo() + "','" +  c.getDireccion() + "','" + c.getGen() + "')");
+            db.commit();
+            JOptionPane.showMessageDialog(jDCrear_Contacto, "Contacto Creado");
+            jTFNombre.setText("");
+            jTFNumero_Te.setText("");
+            jTFEdad.setText("");
+            jTFCorreo.setText("");
+            jTFDireccion.setText("");
+            jRBM1.setSelected(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        jDModificar_Contacto.setModal(true);
+        jDModificar_Contacto.pack();
+        jDModificar_Contacto.setLocationRelativeTo(this);
+        jDModificar_Contacto.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        Dba db = new Dba("./Database1.accdb");
+        db.conectar();
+        String gen = "";
+        if (jRBM1.isSelected()) {
+            gen = "Masculino";
+        } else {
+            gen = "Femenino";
+        }
+        try {
+            db.query.execute("update contactos set nombre='" + jTFNombre1.getText() + "',numero_telefono='" + jTFNumero_Te1.getText() + "',edad='" + jTFEdad1.getText() + "',correo='" + jTFCorreo1.getText() + "',direccion='" + jTFDireccion1.getText() + "',genero='" + gen + "'where nombre='" + jCBModificar_Contacto.getSelectedItem().toString() + "'");
+            db.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        jDEliminar_Contacto.setModal(true);
+        jDEliminar_Contacto.pack();
+        jDEliminar_Contacto.setLocationRelativeTo(this);
+        jDEliminar_Contacto.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        Dba db = new Dba("./Database1.accdb");
+        db.conectar();
+        try {
+            db.query.execute("delete from contactos where nombre='" + jCBEliminar_Contacto.getSelectedItem().toString() + "'");
+            db.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        Dba db = new Dba("./Database1.accdb");
+        DefaultTreeModel modelo = (DefaultTreeModel) arbolito.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        db.conectar();
+        int centinela = -1;
+        try {
+            db.query.execute("select * from contactos");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                for (int i = 0; i < raiz.getChildCount(); i++) {
+                    if (raiz.getChildAt(i).toString().equals(rs.getString(6))) {
+                        //Si ya Existe le Agrega la Persona
+                        DefaultMutableTreeNode p = new DefaultMutableTreeNode(new Contacto(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+                        ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(p);
+                        centinela = 1;
+                    }
+                }
+                if (centinela == -1) {
+                    DefaultMutableTreeNode n = new DefaultMutableTreeNode(rs.getString(6));
+                    DefaultMutableTreeNode p = new DefaultMutableTreeNode(new Contacto(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+                    n.add(p);
+                    raiz.add(n);
+                }
+                modelo.reload();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jDModificar_ContactoWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDModificar_ContactoWindowActivated
+        if (jDModificar_Contacto.isActive()) {
+            Dba db = new Dba("./Database1.accdb");
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jCBModificar_Contacto.getModel();
+            db.conectar();
+            modelo.removeAllElements();
+            try {
+                db.query.execute("select nombre from contactos");
+                ResultSet rs = db.query.getResultSet();
+                while (rs.next()) {
+                    modelo.addElement(rs.getString(1));
+                    jCBModificar_Contacto.setModel(modelo);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.desconectar();
+        }
+    }//GEN-LAST:event_jDModificar_ContactoWindowActivated
+
+    private void jDEliminar_ContactoWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDEliminar_ContactoWindowActivated
+        if (jDEliminar_Contacto.isActive()) {
+            Dba db = new Dba("./Database1.accdb");
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jCBEliminar_Contacto.getModel();
+            db.conectar();
+            modelo.removeAllElements();
+            try {
+                db.query.execute("select nombre from contactos");
+                ResultSet rs = db.query.getResultSet();
+                while (rs.next()) {
+                    modelo.addElement(rs.getString(1));
+                    jCBEliminar_Contacto.setModel(modelo);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.desconectar();
+        }
+    }//GEN-LAST:event_jDEliminar_ContactoWindowActivated
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        jDAgenda_Contacto.setModal(true);
+        jDAgenda_Contacto.pack();
+        jDAgenda_Contacto.setLocationRelativeTo(this);
+        jDAgenda_Contacto.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        Dba db = new Dba("./Database1.accdb");
+        DefaultTreeModel modelo = (DefaultTreeModel) arbolito.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+
+        db.conectar();
+        int centinela = -1;
+        try {
+            db.query.execute("select * from contactos");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                for (int i = 0; i < raiz.getChildCount(); i++) {
+                    if (Integer.parseInt(raiz.getChildAt(i).toString()) == rs.getInt(2)) {
+                        DefaultMutableTreeNode p = new DefaultMutableTreeNode(new Contacto(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+                        ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(p);
+                        centinela = 1;
+                    }
+                }
+                if (centinela == -1) {
+                    DefaultMutableTreeNode n = new DefaultMutableTreeNode(rs.getInt(2));
+                    DefaultMutableTreeNode p = new DefaultMutableTreeNode(new Contacto(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+                    n.add(p);
+                    raiz.add(n);
+                }
+                modelo.reload();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        Dba db = new Dba("./Database1.accdb");
+        db.conectar();
+        try {
+            Date fecha = new Date();
+            DateFormat df = new SimpleDateFormat("yyyy//MM//dd");
+            String fecha2=df.format(fecha);
+            db.query.execute("INSERT INTO mensaje"
+                    + "(emisor,receptor,fecha_envio,contenido)"
+                    + "VALUES ('" + new Contacto() + "','" + jCBReceptor_Mensaje.getSelectedItem().toString() + "','" + fecha2 + "','" + jTAMensaje + "')");
+           db.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton5MouseClicked
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -693,6 +974,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTree arbolito;
     private javax.swing.ButtonGroup jBGGen;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -762,16 +1044,17 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRBF;
+    private javax.swing.JRadioButton jRBF1;
+    private javax.swing.JRadioButton jRBM;
+    private javax.swing.JRadioButton jRBM1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTextArea jTAMensaje;
     private javax.swing.JTextField jTFCorreo;
     private javax.swing.JTextField jTFCorreo1;
     private javax.swing.JTextArea jTFDireccion;
@@ -782,7 +1065,5 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTFNombre1;
     private javax.swing.JTextField jTFNumero_Te;
     private javax.swing.JTextField jTFNumero_Te1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,7 +9,7 @@ public class Contacto {
     public Contacto() {
     }
 
-    public Contacto(String nombre, int edad, int num_tel, String correo, String direccion, String gen) {
+    public Contacto(String nombre, int num_tel, int edad, String correo, String direccion, String gen) {
         this.nombre = nombre;
         this.edad = edad;
         this.num_tel = num_tel;
