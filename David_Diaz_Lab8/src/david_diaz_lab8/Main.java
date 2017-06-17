@@ -83,11 +83,11 @@ public class Main extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jDBuzon_Salida = new javax.swing.JDialog();
         jLabel22 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         jButton7 = new javax.swing.JButton();
         jCBBuzon_Salida = new javax.swing.JComboBox<>();
         jButton8 = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        arbolito2 = new javax.swing.JTree();
         jDNueva_Llamada = new javax.swing.JDialog();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -450,6 +450,12 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
+        jDNuevo_Mensaje.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                jDNuevo_MensajeWindowActivated(evt);
+            }
+        });
+
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel18.setText("Nuevo Mensaje");
 
@@ -505,14 +511,32 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jDBuzon_Salida.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                jDBuzon_SalidaWindowActivated(evt);
+            }
+        });
+
         jLabel22.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel22.setText("Buzon de Salida");
 
-        jScrollPane5.setViewportView(jList1);
-
         jButton7.setText("Fecha");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
 
         jButton8.setText("Listar");
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton8MouseClicked(evt);
+            }
+        });
+
+        treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Mensajes");
+        arbolito2.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane7.setViewportView(arbolito2);
 
         javax.swing.GroupLayout jDBuzon_SalidaLayout = new javax.swing.GroupLayout(jDBuzon_Salida.getContentPane());
         jDBuzon_Salida.getContentPane().setLayout(jDBuzon_SalidaLayout);
@@ -522,7 +546,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jDBuzon_SalidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane5))
+                    .addComponent(jScrollPane7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jDBuzon_SalidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
@@ -537,15 +561,14 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel22)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jDBuzon_SalidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
                     .addGroup(jDBuzon_SalidaLayout.createSequentialGroup()
                         .addComponent(jButton7)
                         .addGap(18, 18, 18)
                         .addComponent(jCBBuzon_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jButton8))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
@@ -554,6 +577,11 @@ public class Main extends javax.swing.JFrame {
         jLabel24.setText("Contacto:");
 
         jButton9.setText("Llamar");
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton9MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDNueva_LlamadaLayout = new javax.swing.GroupLayout(jDNueva_Llamada.getContentPane());
         jDNueva_Llamada.getContentPane().setLayout(jDNueva_LlamadaLayout);
@@ -587,6 +615,12 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jButton9)
                 .addContainerGap())
         );
+
+        jDLlamada.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                jDLlamadaWindowActivated(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel19.setText("Llamada");
@@ -700,9 +734,19 @@ public class Main extends javax.swing.JFrame {
         jMenu3.setText("Mensaje");
 
         jMenuItem5.setText("Nuevo Mensaje");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem5);
 
         jMenuItem6.setText("Buzon de Salida");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem6);
 
         jMenu2.add(jMenu3);
@@ -710,6 +754,11 @@ public class Main extends javax.swing.JFrame {
         jMenu4.setText("Llamada");
 
         jMenuItem7.setText("Nueva Llamada");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem7);
 
         jMenuItem8.setText("Nueva Video Llamada");
@@ -818,6 +867,7 @@ public class Main extends javax.swing.JFrame {
         Dba db = new Dba("./Database1.accdb");
         DefaultTreeModel modelo = (DefaultTreeModel) arbolito.getModel();
         DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        arbolito.removeAll();
         db.conectar();
         int centinela = -1;
         try {
@@ -897,7 +947,7 @@ public class Main extends javax.swing.JFrame {
         Dba db = new Dba("./Database1.accdb");
         DefaultTreeModel modelo = (DefaultTreeModel) arbolito.getModel();
         DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-
+        arbolito2.removeAll();
         db.conectar();
         int centinela = -1;
         try {
@@ -934,13 +984,154 @@ public class Main extends javax.swing.JFrame {
             String fecha2=df.format(fecha);
             db.query.execute("INSERT INTO mensaje"
                     + "(emisor,receptor,fecha_envio,contenido)"
-                    + "VALUES ('" + new Contacto() + "','" + jCBReceptor_Mensaje.getSelectedItem().toString() + "','" + fecha2 + "','" + jTAMensaje + "')");
+                    + "VALUES ('" + admin.getNombre() + "','" + jCBReceptor_Mensaje.getSelectedItem().toString() + "','" + fecha2 + "','" + jTAMensaje.getText() + "')");
            db.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
         db.desconectar();
     }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        jDNuevo_Mensaje.setModal(true);
+        jDNuevo_Mensaje.pack();
+        jDNuevo_Mensaje.setLocationRelativeTo(this);
+        jDNuevo_Mensaje.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        Dba db = new Dba("./Database1.accdb");
+        DefaultTreeModel modelo = (DefaultTreeModel) arbolito2.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        arbolito2.removeAll();
+        db.conectar();
+        int centinela = -1;
+        try {
+            db.query.execute("select * from mensaje");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                for (int i = 0; i < raiz.getChildCount(); i++) {
+                    if (raiz.getChildAt(i).toString().equals(rs.getString(2))) {
+                        //Si ya Existe le Agrega la Persona
+                        DefaultMutableTreeNode p = new DefaultMutableTreeNode(rs.getString(3));
+                        ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(p);
+                        centinela = 1;
+                    }
+                }
+                if (centinela == -1) {
+                    DefaultMutableTreeNode n = new DefaultMutableTreeNode(rs.getString(2));
+                    DefaultMutableTreeNode p = new DefaultMutableTreeNode(rs.getString(3));
+                    n.add(p);
+                    raiz.add(n);
+                }
+                modelo.reload();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton8MouseClicked
+
+    private void jDNuevo_MensajeWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDNuevo_MensajeWindowActivated
+       if (jDNuevo_Mensaje.isActive()) {
+            Dba db = new Dba("./Database1.accdb");
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jCBReceptor_Mensaje.getModel();
+            db.conectar();
+            modelo.removeAllElements();
+            try {
+                db.query.execute("select nombre from contactos");
+                ResultSet rs = db.query.getResultSet();
+                while (rs.next()) {
+                    modelo.addElement(rs.getString(1));
+                    jCBReceptor_Mensaje.setModel(modelo);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.desconectar();
+        }
+    }//GEN-LAST:event_jDNuevo_MensajeWindowActivated
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        jDBuzon_Salida.setModal(true);
+        jDBuzon_Salida.pack();
+        jDBuzon_Salida.setLocationRelativeTo(this);
+        jDBuzon_Salida.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jDBuzon_SalidaWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDBuzon_SalidaWindowActivated
+        if (jDBuzon_Salida.isActive()) {
+            Dba db = new Dba("./Database1.accdb");
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jCBBuzon_Salida.getModel();
+            db.conectar();
+            modelo.removeAllElements();
+            try {
+                db.query.execute("select nombre from contactos");
+                ResultSet rs = db.query.getResultSet();
+                while (rs.next()) {
+                    modelo.addElement(rs.getString(1));
+                    jCBBuzon_Salida.setModel(modelo);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            db.desconectar();
+        }
+    }//GEN-LAST:event_jDBuzon_SalidaWindowActivated
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+       Dba db = new Dba("./Database1.accdb");
+        DefaultTreeModel modelo = (DefaultTreeModel) arbolito2.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        arbolito2.removeAll();
+        db.conectar();
+        int centinela = -1;
+        try {
+            db.query.execute("select * from mensaje");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                for (int i = 0; i < raiz.getChildCount(); i++) {
+                    if (raiz.getChildAt(i).toString().equals(rs.getString(4))) {
+                        //Si ya Existe le Agrega la Persona
+                        DefaultMutableTreeNode p = new DefaultMutableTreeNode(rs.getString(3));
+                        ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(p);
+                        centinela = 1;
+                    }
+                }
+                if (centinela == -1) {
+                    DefaultMutableTreeNode n = new DefaultMutableTreeNode(rs.getString(4));
+                    DefaultMutableTreeNode p = new DefaultMutableTreeNode(rs.getString(3));
+                    n.add(p);
+                    raiz.add(n);
+                }
+                modelo.reload();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jDLlamadaWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDLlamadaWindowActivated
+        if (jDLlamada.isActive()) {
+            Duracion_Llamada DLl = new Duracion_Llamada(jLDuracion);
+            DLl.start();
+        }
+    }//GEN-LAST:event_jDLlamadaWindowActivated
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        jDNueva_Llamada.setModal(true);
+        jDNueva_Llamada.pack();
+        jDNueva_Llamada.setLocationRelativeTo(this);
+        jDNueva_Llamada.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
+        jDLlamada.setModal(true);
+        jDLlamada.pack();
+        jDLlamada.setLocationRelativeTo(this);
+        jDLlamada.setVisible(true);
+    }//GEN-LAST:event_jButton9MouseClicked
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -975,6 +1166,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree arbolito;
+    private javax.swing.JTree arbolito2;
     private javax.swing.ButtonGroup jBGGen;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -1029,7 +1221,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -1052,8 +1243,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTextArea jTAMensaje;
     private javax.swing.JTextField jTFCorreo;
     private javax.swing.JTextField jTFCorreo1;
@@ -1066,4 +1257,5 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTFNumero_Te;
     private javax.swing.JTextField jTFNumero_Te1;
     // End of variables declaration//GEN-END:variables
+    Contacto admin = new Contacto("admin", 96900525, 20, "guillendiazd@outlook.com", "Col. Bella Oriente", "Madculino");
 }
