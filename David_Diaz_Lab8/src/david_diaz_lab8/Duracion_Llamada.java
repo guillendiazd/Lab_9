@@ -14,11 +14,18 @@ public class Duracion_Llamada extends Thread {
     @Override
     public void run(){
         while(true){
-            Date h = new Date();
-            DateFormat f = new SimpleDateFormat("mm:ss");
-            hora.setText(f.format(h));
+            int conts = 0, contm = 0;
+            if (conts != 59) {
+                conts ++;
+            } else {
+                if (contm != 59) {
+                    conts = 0;
+                    contm ++;
+                }
+            }
+            hora.setText(contm + " : " +conts);
             try {
-                Thread.sleep(50);
+                Thread.sleep(999);
             } catch (InterruptedException e) {
             }
         }
